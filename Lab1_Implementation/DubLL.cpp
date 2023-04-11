@@ -126,7 +126,7 @@ Node* DoublyLinkedList::nodeAt(int pos) {
 		return node;
 	}
 }
-void DoublyLinkedList::display_forward() {
+void DoublyLinkedList::display_forward() { // from start to end
 	Node* current = head;
 	while (current != nullptr) {
 		cout << current->getData() << " ";
@@ -134,7 +134,7 @@ void DoublyLinkedList::display_forward() {
 	}
 	cout << endl;
 }
-void DoublyLinkedList::display_backward() {
+void DoublyLinkedList::display_backward() { // from end to start
 	Node* current = tail;
 	while (current != nullptr) {
 		cout << current->getData() << " ";
@@ -147,7 +147,7 @@ int DoublyLinkedList::size() {
 }
 
 int main() {
-	srand(time(0));
+	srand(time(0)); //random seed generated from time at start of program, thus changing each time it is launched
 	Node* n0 = new Node(rand()%256);
 	Node* n1 = new Node(rand()%256);
 	Node* n2 = new Node(rand()%256);
@@ -159,8 +159,8 @@ int main() {
 	list.add(n0, 0); 
 	list.add(n1, 1);
 	list.add(n2, 2);
-	list.add(n3, 1);
-	list.add(n4, 3);
+	list.add(n3, 3);
+	list.add(n4, 4);
 	list.display_forward();
 	return 0;
 }
