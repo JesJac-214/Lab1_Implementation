@@ -89,7 +89,7 @@ bool DoublyLinkedList::remove(int pos) {
 		return true;
 	}
 }
-bool DoublyLinkedList::replace(Node* old, Node* nieuw) { //Dutch word for "new" because it is an already existing keyword or something
+bool DoublyLinkedList::replace(Node* old, Node* nieuw) {
 	int pos = search(old);
 
 	if (pos == -1 || old == nullptr || nieuw == nullptr) {
@@ -146,33 +146,21 @@ int DoublyLinkedList::size() {
 	return listSize;
 }
 
-int main() { //comment out later for the MainGame to be played
-	Node* n0 = new Node(0);
-	Node* n1 = new Node(1);
-	Node* n2 = new Node(2);
-	Node* n3 = new Node(3);
-	Node* n4 = new Node(4);
+int main() {
+	srand(time(0));
+	Node* n0 = new Node(rand()%256);
+	Node* n1 = new Node(rand()%256);
+	Node* n2 = new Node(rand()%256);
+	Node* n3 = new Node(rand()%256);
+	Node* n4 = new Node(rand()%256);
 
 	DoublyLinkedList list;
 
-	list.add(n0, 0);
-	list.add(n1, 10); //should be a false or -1 (error/invalid) 
-	list.add(nullptr, 1); //should be a false or -1 (error/invalid) 
+	list.add(n0, 0); 
 	list.add(n1, 1);
-	list.remove(3); //should be a false or -1 (error/invalid) 
 	list.add(n2, 2);
-	list.display_forward();
 	list.add(n3, 1);
+	list.add(n4, 3);
 	list.display_forward();
-	list.remove(2);
-	list.display_forward();
-	list.display_backward();
-	list.search(n4); //should be a false or -1 (error/invalid) 
-	list.search(n3);
-	list.replace(n3, nullptr); //should be a false or -1 (error/invalid) 
-	//list.replace(n5, n4); //should be a false or -1 (error/invalid) // I get an error of "identifier 'n5' is undefined"
-	list.replace(n3, n4);
-	list.display_forward();
-	list.size();
 	return 0;
 }
