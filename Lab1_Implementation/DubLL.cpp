@@ -147,20 +147,15 @@ int DoublyLinkedList::size() {
 }
 
 int main() {
-	srand(time(0)); //random seed generated from time at start of program, thus changing each time it is launched
-	Node* n0 = new Node(rand()%256);
-	Node* n1 = new Node(rand()%256);
-	Node* n2 = new Node(rand()%256);
-	Node* n3 = new Node(rand()%256);
-	Node* n4 = new Node(rand()%256);
-
+	cout << "Generating list..." << endl;
+	srand(time(0)); //random seed generated from time at start of program, thus changing each time it is launched	
 	DoublyLinkedList list;
-
-	list.add(n0, 0); 
-	list.add(n1, 1);
-	list.add(n2, 2);
-	list.add(n3, 3);
-	list.add(n4, 4);
+	int i = 0;
+	while (i < 1000) {
+		list.add(new Node(rand()% 9999), 0);
+		i++;
+	}
 	list.display_forward();
+	cout << "Unsorted list shown above, proceeding with sort:" << endl;
 	return 0;
 }
