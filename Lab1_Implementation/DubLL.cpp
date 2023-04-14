@@ -145,17 +145,43 @@ void DoublyLinkedList::display_backward() { // from end to start
 int DoublyLinkedList::size() {
 	return listSize;
 }
+bool DoublyLinkedList::isSorted() {
+	int i = 0;
+	while (i < listSize - 1){
+		if (nodeAt(i)->getData() <= nodeAt(i + 1)->getData()) {
+			i++;
+		}
+		else if(nodeAt(i)->getData() > nodeAt(i + 1)->getData()) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+}
+
+void InsertionSort(DoublyLinkedList inputList, int n) {
+	if (inputList.isSorted()||(n == 1)) {
+		inputList.display_forward();
+	}
+	else {
+		int prevLast = (inputList.nodeAt(n - 1))->getData();
+		inputList.remove(n - 1);
+		InsertionSort(inputList, inputList.size());
+	}
+}
 
 int main() {
 	cout << "Generating list..." << endl;
 	srand(time(0)); //random seed generated from time at start of program, thus changing each time it is launched	
 	DoublyLinkedList list;
 	int i = 0;
-	while (i < 1000) {
-		list.add(new Node(rand()% 9999), 0);
+	while (i < 20) {
+		list.add(new Node(rand()% 1000), 0);
 		i++;
 	}
 	list.display_forward();
 	cout << "Unsorted list shown above, proceeding with sort:" << endl;
+	InsertionSort(list, list.size());
 	return 0;
 }

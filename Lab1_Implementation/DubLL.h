@@ -30,4 +30,5 @@ public:
 	void display_forward();
 	void display_backward();
 	int size();
+	bool isSorted();
 };
