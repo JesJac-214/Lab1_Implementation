@@ -31,4 +31,5 @@ public:
 	void display_backward();
 	int size();
 	bool isSorted();
+	int binarySearch(int data);
 };

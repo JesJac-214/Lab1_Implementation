@@ -159,15 +159,41 @@ bool DoublyLinkedList::isSorted() {
 		}
 	}
 }
-
-void InsertionSort(DoublyLinkedList inputList, int n) {
-	if (inputList.isSorted()||(n == 1)) {
+int DoublyLinkedList::binarySearch(int data) { //sorta but yeah not really good enough at all
+	Node* shit = head;
+	int start = 0;
+	int i = start;
+	int dest = listSize / 2;
+	while (i != listSize) {
+		while (i != dest) {
+			shit = shit->getNext();
+			i++;
+		}
+		if (shit->getData()||listSize==0) {
+			return i;
+		}
+		else {
+			if (shit->getData() > data) {
+				i = start;
+				dest /= 2;
+			}
+			else {
+				dest += dest / 2;
+			}
+		}
+	}
+}
+DoublyLinkedList bSort(DoublyLinkedList inputList, int n, int last) {
+	if (inputList.isSorted()) {
+		cout << "sorted base list:" << endl;
 		inputList.display_forward();
+		inputList.add(new Node(last), inputList.binarySearch(last));
+		return inputList;
 	}
 	else {
-		int prevLast = (inputList.nodeAt(n - 1))->getData();
-		inputList.remove(n - 1);
-		InsertionSort(inputList, inputList.size());
+		last = (inputList.nodeAt(n - 1))->getData(); //save data of last node
+		inputList.remove(n - 1); //remove the last node
+		bSort(inputList, inputList.size(), last); //recursive call with shortened list
 	}
 }
 
@@ -180,8 +206,16 @@ int main() {
 		list.add(new Node(rand()% 1000), 0);
 		i++;
 	}
+	//manual list for precise testing, comment out the while loop and vice versa
+	/*list.add(new Node(9), 0);
+	list.add(new Node(2), 0);
+	list.add(new Node(666), 0);
+	list.add(new Node(33), 0);
+	list.add(new Node(15), 0);*/
 	list.display_forward();
-	cout << "Unsorted list shown above, proceeding with sort:" << endl;
-	InsertionSort(list, list.size());
+	cout << "Unsorted list shown above, proceeding with sort..." << endl;
+	bSort(list, list.size(), 0);
+	cout << "Final list:" << endl;
+	list.display_forward();
 	return 0;
 }
