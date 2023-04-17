@@ -159,12 +159,20 @@ bool DoublyLinkedList::isSorted() {
 		}
 	}
 }
-int DoublyLinkedList::binarySearch(int data) { //sorta but yeah not really good enough at all
+int DoublyLinkedList::binarySearch(int data) { //sorta but yeah not really
 	Node* shit = head;
 	int start = 0;
 	int i = start;
 	int dest = listSize / 2;
 	while (i != listSize) {
+		if (listSize == 1) {
+			if (shit->getData() < data) {
+				return i;
+			}
+			else if (shit->getData() >= data) {
+				return i++;
+			}
+		}
 		while (i != dest) {
 			shit = shit->getNext();
 			i++;
@@ -202,7 +210,7 @@ int main() {
 	srand(time(0)); //random seed generated from time at start of program, thus changing each time it is launched	
 	DoublyLinkedList list;
 	int i = 0;
-	while (i < 20) {
+	while (i < 8) {
 		list.add(new Node(rand()% 1000), 0);
 		i++;
 	}
@@ -214,7 +222,7 @@ int main() {
 	list.add(new Node(15), 0);*/
 	list.display_forward();
 	cout << "Unsorted list shown above, proceeding with sort..." << endl;
-	bSort(list, list.size(), 0);
+	list = bSort(list, list.size(), 0);
 	cout << "Final list:" << endl;
 	list.display_forward();
 	return 0;
