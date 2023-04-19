@@ -209,7 +209,7 @@ DoublyLinkedList bSort(DoublyLinkedList inputList, int n, int last) {
 	else {
 		last = (inputList.nodeAt(n - 1))->getData(); //save data of last node
 		inputList.remove(n - 1); //remove the last node
-		bSort(inputList, inputList.size(), last); //recursive call with shortened list
+		inputList = bSort(inputList, inputList.size(), last); //recursive call with shortened list
 	}
 }
 
@@ -218,8 +218,8 @@ int main() {
 	srand(time(0)); //random seed generated from time at start of program, thus changing each time it is launched	
 	DoublyLinkedList list;
 	int i = 0;
-	while (i < 50) {
-		list.add(new Node(rand()% 1000), 0);
+	while (i < 2367) { //2367 size limit before getNext starts screaming about stack overflow
+		list.add(new Node(rand()% 10000), 0);
 		i++;
 	}
 	//manual list for precise testing, comment out the while loop and vice versa
