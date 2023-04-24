@@ -162,7 +162,7 @@ bool DoublyLinkedList::isSorted() {
 		}
 	}
 }
-int DoublyLinkedList::binarySearch(int data) { //sorta but yeah not really
+/*int DoublyLinkedList::binarySearch(int data) { //sorta but yeah not really
 	Node* shit = head;
 	int start = 0;
 	int end = listSize - 1;
@@ -171,7 +171,7 @@ int DoublyLinkedList::binarySearch(int data) { //sorta but yeah not really
 	if (listSize == 2) {
 		dest = 0;
 	}
-	while (i != listSize) {
+	while (i != end) {
 		while (i != dest) {
 			shit = shit->getNext();
 			i++;
@@ -190,26 +190,116 @@ int DoublyLinkedList::binarySearch(int data) { //sorta but yeah not really
 				i = 0;
 				shit = head;
 				end -= dest / 2;
+				if (start > 0) {
+					start -= dest / 2;
+				}
 				dest /= 2;
 			}
 			else {
-				start += dest;
-				dest += dest / 2;
+				if ((dest - start) == 1) {
+					start++;
+				}
+				else {
+					start += dest;
+				}
+				if (dest == 1 || (end - dest) == 1) {
+					dest++;
+				}
+				else {
+					dest += dest / 2;
+				}
 			}
 		}
 	}
+}*/
+
+//BinarySearch copied from geeksforgeeks.com
+// function to find out middle element
+struct Node* middle(Node* start, Node* last)
+{
+	if (start == NULL)
+		return NULL;
+
+	struct Node* slow = start;
+	struct Node* fast = start->getNext();
+
+	while (fast != last)
+	{
+		fast = fast->getNext();
+		if (fast != last)
+		{
+			slow = slow->getNext();
+			fast = fast->getNext();
+		}
+	}
+
+	return slow;
 }
-DoublyLinkedList bSort(DoublyLinkedList inputList, int n, int last) {
+
+// Function for implementing the Binary
+// Search on linked list
+int DoublyLinkedList::binarySearch(Node* head, int value)
+{
+	struct Node* start = head;
+	struct Node* last = NULL;
+	Node* mid = middle(start, last);
+
+	do
+	{
+		// Find middle
+		mid = middle(start, last);
+
+		// If middle is last
+		if (mid == last)
+			return listSize;
+
+		// If value is present at middle
+		if (mid->getData() == value)
+			return search(mid);
+
+		// If value is more than mid
+		else if (mid->getData() < value)
+			start = mid->getNext();
+
+		// If the value is less than mid.
+		else
+			last = mid;
+
+	} while (last == NULL ||
+		last != start);
+
+	// value not present
+	if (start == last) {
+		return search(start);
+	}
+	else if (mid->getData() < value) {
+		return search(mid);
+	}
+	else {
+		mid->getNext();
+		return search(mid);
+	}
+}
+//end of copying
+
+
+DoublyLinkedList unsortedList;
+DoublyLinkedList bSort(DoublyLinkedList inputList, int n) {
 	if (inputList.isSorted()) {
-		cout << "sorted base list:" << endl;
+		cout << "sorted base list:" << endl; //errors for a stack overflow of i here despite i not being initiated yet???
 		inputList.display_forward();
-		inputList.add(new Node(last), inputList.binarySearch(last));
+		int i = 0;
+		while (i != unsortedList.size()) {
+			int insertVal = unsortedList.nodeAt(0)->getData();
+			inputList.add(new Node(insertVal), inputList.binarySearch(inputList.nodeAt(0), insertVal));
+			unsortedList.remove(0);
+		}	
 		return inputList;
 	}
 	else {
-		last = (inputList.nodeAt(n - 1))->getData(); //save data of last node
+		unsortedList.add(new Node((inputList.nodeAt(n - 1))->getData()), 0); //put value of last node into list of unsorted values
 		inputList.remove(n - 1); //remove the last node
-		inputList = bSort(inputList, inputList.size(), last); //recursive call with shortened list
+		bSort(inputList, inputList.size()); //recursive call with shortened list
 	}
 }
 
@@ -218,19 +308,29 @@ int main() {
 	srand(time(0)); //random seed generated from time at start of program, thus changing each time it is launched	
 	DoublyLinkedList list;
 	int i = 0;
-	while (i < 2367) { //2367 size limit before getNext starts screaming about stack overflow
+	while (i < 2980) { //too big and various errors pop up
 		list.add(new Node(rand()% 10000), 0);
 		i++;
 	}
-	//manual list for precise testing, comment out the while loop and vice versa
-	/*list.add(new Node(33), 0);
-	list.add(new Node(666), 0);
-	list.add(new Node(15), 0);
-	list.add(new Node(9), 0);
-	list.add(new Node(2), 0);*/
+	//manual list for precise testing, comment out the while using loop and vice versa
+	/*list.add(new Node(616), 0);
+	list.add(new Node(138), 0);
+	list.add(new Node(829), 0);
+	list.add(new Node(233), 0);
+	list.add(new Node(496), 0);
+	list.add(new Node(561), 0);
+	list.add(new Node(861), 0);
+	list.add(new Node(717), 0);
+	list.add(new Node(165), 0);
+	list.add(new Node(712), 0);
+	list.add(new Node(994), 0);
+	list.add(new Node(181), 0);
+	list.add(new Node(503), 0);
+	list.add(new Node(344), 0);
+	list.add(new Node(641), 0);*/
 	list.display_forward();
 	cout << "Unsorted list shown above, proceeding with sort..." << endl;
-	list = bSort(list, list.size(), 0);
+	list = bSort(list, list.size());
 	cout << "Final list:" << endl;
 	list.display_forward();
 	return 0;
