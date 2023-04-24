@@ -213,7 +213,7 @@ bool DoublyLinkedList::isSorted() {
 	}
 }*/
 
-//BinarySearch copied from geeksforgeeks.com
+//BinarySearch copied and adapted from geeksforgeeks.com
 // function to find out middle element
 struct Node* middle(Node* start, Node* last)
 {
@@ -305,10 +305,10 @@ DoublyLinkedList bSort(DoublyLinkedList inputList, int n) {
 
 int main() {
 	cout << "Generating list..." << endl;
-	srand(time(0)); //random seed generated from time at start of program, thus changing each time it is launched	
+	srand(1/*time(0)*/); //random seed generated from time at start of program, thus changing each time it is launched	
 	DoublyLinkedList list;
 	int i = 0;
-	while (i < 2980) { //too big and various errors pop up
+	while (i < 2830) { //too big and various errors pop up. Limit ~2980 for lab PC, ~1820 for laptop
 		list.add(new Node(rand()% 10000), 0);
 		i++;
 	}
